@@ -64,6 +64,10 @@ export default class VastParser {
     return vastElements;
   }
 
+  public getCustomVastElements(arrayOfTagNames: string[]): VastElements {
+    return this.getVastElements(arrayOfTagNames as PossibleTags[]);
+  }
+
   public getContents(arrayOfTagNames: PossibleTags[]): string[] {
     return this.getVastElements(arrayOfTagNames).map(vastElement => {
       if (isNull(vastElement.content)) {
@@ -71,6 +75,10 @@ export default class VastParser {
       }
       return vastElement.content;
     });
+  }
+
+  public getCustomContents(arrayOfTagNames: string[]): string[] {
+    return this.getContents(arrayOfTagNames as PossibleTags[]);
   }
 
   public getAttributes(
@@ -87,5 +95,15 @@ export default class VastParser {
       }
       return attributeLowerCased[attribute.toLowerCase()];
     });
+  }
+
+  public getCustomAttributes(
+    arrayOfTagNames: string[],
+    attribute: string
+  ): string[] {
+    return this.getAttributes(
+      arrayOfTagNames as PossibleTags[],
+      attribute as PossibleAttrs
+    );
   }
 }
