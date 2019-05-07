@@ -22,7 +22,7 @@ export function buildVast(current: Element, currentTag: VastElement<any>) {
         // and fallback on dangerous
         currentChild = currentTag.attachCustomTag(
           currentTmp.name,
-          currentTmp.attributes
+          currentTmp.attributes as any
         );
         buildVast(currentTmp, currentChild);
       }

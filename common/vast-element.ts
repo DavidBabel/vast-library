@@ -12,7 +12,10 @@ const xmlDeclaration = {
   }
 };
 
-type AttributeObject = { [key in PossibleAttrs | string]?: string };
+type AttributeObject = { [key in PossibleAttrs]?: string };
+interface CustomAttributeObject {
+  [key: string]: string;
+}
 // type AttributeObject = { [key in PossibleAttrs]?: string| number };
 
 interface VastElementInfos {
@@ -169,16 +172,16 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   public attachCustomTag(
     tagName: PossibleTags | string,
     content?: string,
-    attributes?: AttributeObject
+    attributes?: CustomAttributeObject
   ): VastElement<this>;
   public attachCustomTag(
     tagName: PossibleTags | string,
-    attributes?: AttributeObject
+    attributes?: CustomAttributeObject
   ): VastElement<this>;
   public attachCustomTag(
     tagName: PossibleTags | string,
-    contentOrAttributes: AttributeObject | string,
-    attributesIfContent?: AttributeObject
+    contentOrAttributes: CustomAttributeObject | string,
+    attributesIfContent?: CustomAttributeObject
   ): VastElement<this> {
     const newElem = new VastElement(
       tagName,
@@ -199,16 +202,16 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   public addCustomTag(
     tagName: PossibleTags | string,
     content: string,
-    attributes?: AttributeObject
+    attributes?: CustomAttributeObject
   ): this;
   public addCustomTag(
     tagName: PossibleTags | string,
-    attributes?: AttributeObject
+    attributes?: CustomAttributeObject
   ): this;
   public addCustomTag(
     tagName: PossibleTags | string,
-    contentOrAttributes?: AttributeObject | string,
-    attributesIfContent?: AttributeObject
+    contentOrAttributes?: CustomAttributeObject | string,
+    attributesIfContent?: CustomAttributeObject
   ): this {
     return this.attachCustomTag(
       tagName,
