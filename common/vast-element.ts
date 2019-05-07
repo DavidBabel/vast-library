@@ -13,6 +13,7 @@ const xmlDeclaration = {
 };
 
 type AttributeObject = { [key in PossibleAttrs]?: string };
+// type AttributeObject = { [key in PossibleAttrs]?: string| number };
 
 interface VastElementInfos {
   attrs?: Array<string | any> | "all";

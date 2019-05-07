@@ -35,6 +35,7 @@
     // "skipLibCheck": true,
     "target": "es5",
     "sourceMap": true,
+    // "module": "es6",
     "moduleResolution": "node"
     // "forceConsistentCasingInFileNames": true,
     // "noImplicitReturns": true,

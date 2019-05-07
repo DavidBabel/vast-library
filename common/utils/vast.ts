@@ -23,7 +23,7 @@ export function buildVast(current: Element, currentTag: VastElement<any>) {
         // and fallback on dangerous
         currentChild = currentTag.attachCustomTag(
           currentTmp.name,
-          String(currentTmp.attributes)
+          currentTmp.attributes
         );
         buildVast(currentTmp, currentChild);
       }
@@ -69,13 +69,13 @@ function fetchUrl({
     }
     throw new Error(`${url} was not found`);
   } else if (isNode) {
-    const request = require("request");
+/*     const request = require("request");
     request(url, (error, response, body) => {
       if (error) {
         fail();
       }
       loadCallback(body);
-    });
+    }); */
   } else {
     throw new Error("Not supported environment");
   }
