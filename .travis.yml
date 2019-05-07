@@ -13,7 +13,7 @@ script:
   - yarn outdated || true
   - yarn depcheck
   - yarn test # && codecov # TODO restore that
-  - yarn tsc
+  - yarn build-ts
 
 before_deploy:
   - npm --no-git-tag-version version `git describe --tags` 2>/dev/null || true

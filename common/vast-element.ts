@@ -12,9 +12,8 @@ const xmlDeclaration = {
   }
 };
 
-interface AttributeObject {
-  [key: string]: string;
-}
+type AttributeObject = { [key in PossibleAttrs]?: string };
+
 interface VastElementInfos {
   attrs?: Array<string | any> | "all";
   // TODO is it good ?
@@ -25,7 +24,7 @@ interface VastElementInfos {
 
 export default class VastElement<VastElementParent extends VastElement<any>> {
   public parent: VastElementParent;
-  public name: string;
+  public name: PossibleTags | string;
   public content: string;
   public attrs: AttributeObject;
   public childs: Array<VastElement<any>>;
@@ -34,20 +33,20 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   public cdataThisOne: boolean;
 
   constructor(
-    name: string,
+    name: PossibleTags | string,
     parent: VastElementParent,
     baseInfos: VastElementInfos,
     content: string,
     attrs?: AttributeObject
   );
   constructor(
-    name?: string,
+    name?: PossibleTags | string,
     parent?: VastElementParent,
     baseInfos?: VastElementInfos,
     attrs?: AttributeObject
   );
   constructor(
-    name: string = "root",
+    name: PossibleTags | string = "root",
     parent: VastElementParent = null,
     baseInfos: VastElementInfos = { attrs: [] },
     contentOrAttributes?: AttributeObject | string,
@@ -167,16 +166,16 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   // * attachCustomTag(tagName: string, attributes: Object): VastElement
   // * attachCustomTag(tagName: string, content: string, attributes: Object): VastElement
   public attachCustomTag(
-    tagName: string,
+    tagName: PossibleTags | string,
     content?: string,
     attributes?: AttributeObject
   ): VastElement<this>;
   public attachCustomTag(
-    tagName: string,
+    tagName: PossibleTags | string,
     attributes?: AttributeObject
   ): VastElement<this>;
   public attachCustomTag(
-    tagName: string,
+    tagName: PossibleTags | string,
     contentOrAttributes: AttributeObject | string,
     attributesIfContent?: AttributeObject
   ): VastElement<this> {
@@ -197,13 +196,16 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   // * addCustomTag(tagName: string, attributes: Object): VastElement
   // * addCustomTag(tagName: string, content: string, attributes: Object): VastElement
   public addCustomTag(
-    tagName: string,
+    tagName: PossibleTags | string,
     content: string,
     attributes?: AttributeObject
   ): this;
-  public addCustomTag(tagName: string, attributes?: AttributeObject): this;
   public addCustomTag(
-    tagName: string,
+    tagName: PossibleTags | string,
+    attributes?: AttributeObject
+  ): this;
+  public addCustomTag(
+    tagName: PossibleTags | string,
     contentOrAttributes?: AttributeObject | string,
     attributesIfContent?: AttributeObject
   ): this {
@@ -305,7 +307,7 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   // > return an array of all childs find recursively at "arrayOfNames" path in the hierarchy
   // * getChilds(arrayOfNames: Array<string>, fromRoot: boolean = true): Array<VastElement>
   public get(
-    arrayOfTagNames: /* PossibleTags[] */ string[] = [],
+    arrayOfTagNames: PossibleTags[] = [],
     fromRoot: boolean = true
   ): Array<VastElement<any>> {
     if (arrayOfTagNames.length === 0) {

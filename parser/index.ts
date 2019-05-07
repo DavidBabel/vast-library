@@ -56,9 +56,7 @@ export default class VastParser {
     return this.vasts || [];
   }
 
-  public getVastElements(
-    arrayOfTagNames: /* PossibleTag[] */ string[]
-  ): VastElements {
+  public getVastElements(arrayOfTagNames: PossibleTags[]): VastElements {
     const vastElements = (flatten(
       this.vasts.map(v => v.get(arrayOfTagNames, true))
     ) as unknown) as VastElements;
@@ -66,7 +64,7 @@ export default class VastParser {
     return vastElements;
   }
 
-  public getContents(arrayOfTagNames: /* PossibleTag[] */ string[]): string[] {
+  public getContents(arrayOfTagNames: PossibleTags[]): string[] {
     return this.getVastElements(arrayOfTagNames).map(vastElement => {
       if (isNull(vastElement.content)) {
         warnOrThrow(`${vastElement.name} does not have content`, this.options);
@@ -76,8 +74,8 @@ export default class VastParser {
   }
 
   public getAttributes(
-    arrayOfTagNames: /* PossibleTag[] */ string[],
-    attribute: string
+    arrayOfTagNames: PossibleTags[],
+    attribute: PossibleAttrs
   ): string[] {
     return this.getVastElements(arrayOfTagNames).map(vastElement => {
       const attributeLowerCased = {};
