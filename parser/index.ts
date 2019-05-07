@@ -27,10 +27,6 @@ export default class VastParser {
     this.vasts.push(createVastWithBuilder(vastXML));
   }
 
-  public cleanVasts() {
-    this.vasts = [];
-  }
-
   public parseAsync(vastUrl: string, callback: (self: this) => void) {
     this.cleanVasts();
     downloadVastAndWrappersAsync(
@@ -105,5 +101,9 @@ export default class VastParser {
       arrayOfTagNames as PossibleTags[],
       attribute as PossibleAttrs
     );
+  }
+
+  private cleanVasts() {
+    this.vasts = [];
   }
 }

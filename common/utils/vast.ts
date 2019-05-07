@@ -1,8 +1,7 @@
 import { Element, xml2js } from "xml-js";
 import VastElement from "../vast-element";
 
-import { isBrowser, isNode } from "browser-or-node";
-
+import { fetchUrl } from "../utils/fetch";
 import { warnOrThrow } from "./logs";
 
 export function buildVast(current: Element, currentTag: VastElement<any>) {
@@ -28,56 +27,6 @@ export function buildVast(current: Element, currentTag: VastElement<any>) {
         buildVast(currentTmp, currentChild);
       }
     }
-  }
-}
-
-interface FetchOptions {
-  url: string;
-  loadCallback?: (response: string) => void;
-  syncInBrowser?: boolean;
-}
-
-function fetchUrl({
-  url,
-  loadCallback = () => {},
-  syncInBrowser = false
-}: FetchOptions) {
-  if (!url) {
-    throw new Error("'url' is undefined");
-  }
-  const fail = () => {
-    throw new Error(`${url} fetch failed`);
-  };
-  if (isBrowser) {
-    const fetchReq = new XMLHttpRequest();
-    if (syncInBrowser) {
-      fetchReq.open("GET", url, false);
-      fetchReq.send();
-      if (fetchReq.status === 200) {
-        loadCallback(fetchReq.responseText);
-        return fetchReq.responseText;
-      } else {
-        fail();
-      }
-    } else {
-      fetchReq.open("GET", url, true);
-      fetchReq.onerror = fail;
-      fetchReq.onload = res => {
-        loadCallback((res as any).responseText);
-      };
-      fetchReq.send();
-    }
-    throw new Error(`${url} was not found`);
-  } else if (isNode) {
-/*     const request = require("request");
-    request(url, (error, response, body) => {
-      if (error) {
-        fail();
-      }
-      loadCallback(body);
-    }); */
-  } else {
-    throw new Error("Not supported environment");
   }
 }
 
@@ -131,7 +80,7 @@ export function downloadVastAndWrappersSync(
 
   do {
     const vastRawContent = fetchUrl({ url: vastUrl, syncInBrowser: true });
-    currentVast = createVastWithBuilder(vastRawContent);
+    currentVast = createVastWithBuilder(vastRawContent as any);
     vastAndWrappers.push(currentVast);
     if (currentVast.isWrapper()) {
       const VASTAdTagURI = currentVast.get(["VASTAdTagURI"])[0];

@@ -327,17 +327,17 @@ describe("VAST Element", () => {
       id: "9"
     });
 
-    expect(vast.get()).toEqual([vast]);
-    expect(vast.get(undefined, true)).toEqual([vast]);
-    expect(vast.get(undefined, false)).toEqual([vast]);
-    expect(vast.get([])).toEqual([vast]);
-    expect(vast.get(["tagA"])).toEqual([test1]);
-    expect(vast.get(["tagE"])).toEqual([test8, test6]);
-    expect(test2.get(["tagE"], false)).toEqual([test8]);
-    expect(vast.get(["tagC", "tagE"])).toEqual([test8, test6]);
-    expect(test2.get(["tagE"])).toEqual([test8, test6]);
-    expect(vast.get(["tagD"])).toEqual([test9, test5]);
-    expect(test3.get(["tagB"], false)).toEqual([test7]);
+    // expect(vast.getCustom()).toEqual([vast]);
+    expect(vast.getCustom(undefined, true)).toEqual([vast]);
+    expect(vast.getCustom(undefined, false)).toEqual([vast]);
+    expect(vast.getCustom([])).toEqual([vast]);
+    expect(vast.getCustom(["tagA"])).toEqual([test1]);
+    expect(vast.getCustom(["tagE"])).toEqual([test8, test6]);
+    expect(test2.getCustom(["tagE"], false)).toEqual([test8]);
+    expect(vast.getCustom(["tagC", "tagE"])).toEqual([test8, test6]);
+    expect(test2.getCustom(["tagE"])).toEqual([test8, test6]);
+    expect(vast.getCustom(["tagD"])).toEqual([test9, test5]);
+    expect(test3.getCustom(["tagB"], false)).toEqual([test7]);
   });
   // test("should print a warning if trying to put cdata directly", () => {
   //   const stub = sinon.stub(VastElement.prototype, "warn");

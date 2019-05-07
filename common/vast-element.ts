@@ -12,7 +12,7 @@ const xmlDeclaration = {
   }
 };
 
-type AttributeObject = { [key in PossibleAttrs]?: string };
+type AttributeObject = { [key in PossibleAttrs | string]?: string };
 // type AttributeObject = { [key in PossibleAttrs]?: string| number };
 
 interface VastElementInfos {
@@ -329,6 +329,10 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
       }
     });
     return flatten(findedNodes);
+  }
+
+  public getCustom(arrayOfTagNames: string[] = [], fromRoot: boolean = true) {
+    this.get(arrayOfTagNames as PossibleTags[], fromRoot);
   }
 
   // > Return if current VastElement hierarchie is a Wrapper

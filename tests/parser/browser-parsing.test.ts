@@ -14,7 +14,7 @@ function getFileContent(fixturePath: string) {
   return fs.readFileSync(fixtureFile, "utf8");
 }
 
-function answerVastFile(req: PuppeteerRequest) {
+function answerVastFile(req: any) {
   const fileToLoad = req.url().split("http://vasts/")[1];
   const fileContent = getFileContent(fileToLoad);
   req.respond({
