@@ -335,7 +335,7 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   }
 
   public getCustom(arrayOfTagNames: string[] = [], fromRoot: boolean = true) {
-    this.get(arrayOfTagNames as PossibleTags[], fromRoot);
+    return this.get(arrayOfTagNames as PossibleTags[], fromRoot);
   }
 
   // > Return if current VastElement hierarchie is a Wrapper

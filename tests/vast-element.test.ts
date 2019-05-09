@@ -323,9 +323,9 @@ describe("VAST Element", () => {
       id: "9"
     });
 
-    // expect(vast.getCustom()).toEqual([vast]);
-    // expect(vast.getCustom(undefined, true)).toEqual([vast]);
-    // expect(vast.getCustom(undefined, false)).toEqual([vast]);
+    expect(vast.getCustom()).toEqual([vast]);
+    expect(vast.getCustom(undefined, true)).toEqual([vast]);
+    expect(vast.getCustom(undefined, false)).toEqual([vast]);
     expect(vast.getCustom([])).toEqual([vast]);
     expect(vast.getCustom(["tagA"])).toEqual([test1]);
     expect(vast.getCustom(["tagE"])).toEqual([test8, test6]);
