@@ -131,6 +131,10 @@ export async function evalCode(
   return result;
 }
 
+export function printPageConsoleLogs() {
+  page.on("console", msg => console.log("PAGE LOG:", msg.text()));
+}
+
 export function generateMinimalVast() {
   const vast = v2()
     .attachAd({ id: "identifier" })

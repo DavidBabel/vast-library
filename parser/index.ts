@@ -49,7 +49,7 @@ export default class VastParser {
   }
 
   public getVasts(): VastElements {
-    return this.vasts || [];
+    return this.vasts;
   }
 
   public getVastElements(arrayOfTagNames: PossibleTags[]): VastElements {
@@ -65,12 +65,17 @@ export default class VastParser {
   }
 
   public getContents(arrayOfTagNames: PossibleTags[]): string[] {
-    return this.getVastElements(arrayOfTagNames).map(vastElement => {
-      if (isNull(vastElement.content)) {
-        warnOrThrow(`${vastElement.name} does not have content`, this.options);
-      }
-      return vastElement.content;
-    });
+    return this.getVastElements(arrayOfTagNames)
+      .map(vastElement => {
+        if (isNull(vastElement.content)) {
+          warnOrThrow(
+            `${vastElement.name} does not have content`,
+            this.options
+          );
+        }
+        return vastElement.content;
+      })
+      .filter(x => x);
   }
 
   public getCustomContents(arrayOfTagNames: string[]): string[] {
@@ -81,16 +86,21 @@ export default class VastParser {
     arrayOfTagNames: PossibleTags[],
     attribute: PossibleAttrs
   ): string[] {
-    return this.getVastElements(arrayOfTagNames).map(vastElement => {
-      const attributeLowerCased = {};
-      Object.keys(vastElement.attrs).forEach(attr => {
-        attributeLowerCased[attr.toLowerCase()] = vastElement.attrs[attr];
-      });
-      if (isNull(attributeLowerCased[attribute.toLowerCase()])) {
-        warnOrThrow(`${vastElement.name} does not have content`, this.options);
-      }
-      return attributeLowerCased[attribute.toLowerCase()];
-    });
+    return this.getVastElements(arrayOfTagNames)
+      .map(vastElement => {
+        const attributeLowerCased = {};
+        Object.keys(vastElement.attrs).forEach(attr => {
+          attributeLowerCased[attr.toLowerCase()] = vastElement.attrs[attr];
+        });
+        if (isNull(attributeLowerCased[attribute.toLowerCase()])) {
+          warnOrThrow(
+            `${vastElement.name} does not have attribute ${attribute}`,
+            this.options
+          );
+        }
+        return attributeLowerCased[attribute.toLowerCase()];
+      })
+      .filter(x => x);
   }
 
   public getCustomAttributes(

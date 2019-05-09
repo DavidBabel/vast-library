@@ -6,3 +6,4 @@ build
 *.d.ts
 *.js
 *.js.map
+!jest-puppeteer.config.js
