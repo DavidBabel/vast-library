@@ -9,6 +9,19 @@
 
 # vast-library
 
+## notice
+
+This library is in active development, but not stable (not fully tested yet).
+Until end of june 2019, please prefer use deprecated https://www.npmjs.com/package/vast-builder
+
+Status :
+
+- **Parser**: Working and ready for prod.
+- **Builder**: BETA, should work but still tests to do.
+- **Validator**: Not working yet.
+
+## readme
+
 <img src="https://github.com/DavidBabel/vast-library/blob/2.0.2/ressources/iab-logo.png?raw=true" alt="IAB Logo" />
 
 An awesome library with great API which offer a complete support for IAB Video Ad Serving Template standard: VAST2, VAST3, VAST4 and VAST4.1
@@ -66,6 +79,8 @@ import * as VastBuilder from "vast-library/builder";
 import { v2, v3, v4, v4_1 } from "vast-library/builder";
 // ( this implementation helps tree-shacking )
 ```
+
+A good treeshacking will save you some space.
 
 ### Validate existing VAST
 
