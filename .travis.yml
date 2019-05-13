@@ -4,6 +4,7 @@ node_js:
   - 8
   - 10
   - 11
+  - 12
 
 install:
   - yarn install
@@ -12,18 +13,19 @@ script:
   - yarn circular-dependencies
   - yarn outdated || true
   - yarn depcheck
-  - yarn test # && codecov # TODO restore that
+  - yarn test && codecov
   - yarn build-ts
 
 before_deploy:
   - npm --no-git-tag-version version `git describe --tags` 2>/dev/null || true
   - yarn install --production --ignore-scripts --prefer-offline
-# deploy:
-#   provider: npm
-#   skip_cleanup: true
-#   email: oopinou@gmail.com
-#   api_key:
-#     secure: YeT4zZNTpswMu5P8RZGHwfXywdooEf7vXG8SvRpu65BoVBtx+PmhtQIXdzA/lG1P/NTFK+NsugHfdc+lLxkDomJp8P42AUFCCF3otMb62lFJAPsIQrpzIu244G9eVIDfNCBbia+iZwSsBatteuAY9HQyyQXUuEo24l/wXMwJjXobovOGuwDaQNRKOyQjMECX2O0EE57DqqhY5dl3xcgfxkDmez0Ju95kodWAbNabIW36uO8gwl3295jgElCJxzPKC3GXmUPzDY2tC3MCx3+dsJi+Ry1skzPbjYCtk7KtrAElcTl4cRozI13TGJf9ATcq9wTx+8N0j0N4jpkZjVaNtC2Avd7cxt/sHjtDQ02fV+yS9Y3Ovs24uxjd1x2q7L/qaQ3J5aTeFpDj+6wD+f97oE+567yRnCFm6b3/+NtngOfX/xUZIrgpYGf/IKw+zvhYMfRBTKj03efutkjWT5NkAlfjsuPnnNOUajLELsUzAW8FOuOW5dZLEDstcd+wyEd8+h7oy9phnFgmqPxFPiNS7ivj/3MAEQK4SisrMj0ciV4eE2TZrL+zxY6MSwQCI/vbO95/d17ib6PFP3oekxuHRCTopuroIPK0xpxPGLAuAGZy+H4JJCYT2leqGArPOurzM3/0Ue8OGg/KIi9+dm/10VU4uGoi6EN2GkS7SWXufaI=
-#   on:
-#     tags: true
-#     repo: DavidBabel/vast-library
+
+deploy:
+  provider: npm
+  skip_cleanup: true
+  email: oopinou@gmail.com
+  api_key:
+    secure: n1mIGmp+SGJ2jaCrj/vSQ1ME3BaOwiFkkY8ChPJv39b3vYXeX3QEq1JuF1Nh+nO0B3Z85oZIKRPdIToY1lByNVeCUh3YawQz8iL2O8JbUgE49N3A68WYnykMfZJXCUf4dziPTMNG9oMRzEOkWONzji/ZTVLgFhMcmP7uMgqA4GeWmyX4u4AalROc4brJ6qWNTrJ4J9mlEhDs+3U+1Oj2872xV2XJRcVCZ1nqljE/0FzuZU4sTkzpmq5AiJFn85ilJMa41MfAiLr3Ll0jSxCyRgMUOCWcjt3EczAc6DjY1IfuKh5SSay5mOVuf1kgx6IFqJ+683NLHCqJ+XrBZ0Gujx1AxN9stCuH+G2Dt9jiOqRcC0MAtKnZC2cKJkl//qfswB7oh4FqdC2TKgR3WvMD5FZ0tRY3+riob7ZrOLGuYUAQDnZ0MmQMJIHmnGT0QPB1M9kqnQiyH5q3lssQUW59CAJFfTAlrgeosoMXJhmTBUrRYXhkMWjmgLdijTjCCOSVmy03d0CiiRpSubVFxh2m/ZF5yBJqZRvb6tcrvq0zaxKbZlnal2NfHXADqqAO8ChYorpapaEKwgAfcUK4JOT6YWSuZfK8VICMfw7NUlPc2enMvSpY3wMhDdAGcK916LlH1KU13BHpKdWl0syXVrgARXAktwNkZobANgEjsNbZp98=
+  on:
+    tags: true
+    repo: DavidBabel/vast-library
