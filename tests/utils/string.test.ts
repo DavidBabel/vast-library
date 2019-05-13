@@ -6,6 +6,8 @@ describe("string", () => {
     expect(stripCDATA("<anything>")).toBe("<anything>");
   });
   test("should remove CDATA when present", () => {
+    expect(stripCDATA("<![CDATA[test")).toBe("test");
+    expect(stripCDATA("test]]>")).toBe("test");
     expect(stripCDATA("<![CDATA[test]]>")).toBe("test");
     expect(stripCDATA("<![CDATA[    test   ]]>")).toBe("test");
   });
