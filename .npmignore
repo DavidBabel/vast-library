@@ -1,5 +1,4 @@
 .vscode/
-@types/
 bin/
 coverage/
 david/
@@ -15,3 +14,5 @@ tsconfig.json
 tslint.json
 try.*
 yarn.lock
+jest-puppeteer.config.js
+todo*
