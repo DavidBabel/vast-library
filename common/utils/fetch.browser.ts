@@ -6,7 +6,7 @@ interface FetchOptions {
 
 export function fetchUrl({
   url,
-  loadCallback = () => {},
+  loadCallback = () => { },
   syncInBrowser = false
 }: FetchOptions) {
   if (!url) {
@@ -20,7 +20,7 @@ export function fetchUrl({
   if (syncInBrowser) {
     fetchReq.open("GET", url, false);
     fetchReq.send();
-    if (fetchReq.status === 200) {
+    if (fetchReq.status >= 200 && fetchReq.status < 400) {
       loadCallback(fetchReq.responseText);
       return fetchReq.responseText;
     } else {
@@ -34,5 +34,4 @@ export function fetchUrl({
     };
     fetchReq.send();
   }
-  throw new Error(`${url} was not found`);
 }
