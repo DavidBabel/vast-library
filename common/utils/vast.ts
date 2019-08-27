@@ -2,6 +2,7 @@ import { Element, xml2js } from "xml-js";
 import VastElement from "../vast-element";
 
 import { fetchUrl } from "../utils/fetch";
+import { replaceVastMacros } from "./macros";
 import { warnOrThrow } from "./logs";
 
 export function buildVast(current: Element, currentTag: VastElement<any>) {
@@ -77,9 +78,13 @@ export function downloadVastAndWrappersSync(
 ): Vasts {
   const vastAndWrappers: Vasts = [];
   let currentVast: VastElement<any>;
+  const vastUrlMacroVars: any = options.vastUrlMacroVars || {};
 
   do {
-    const vastRawContent = fetchUrl({ url: vastUrl, syncInBrowser: true });
+    const vastRawContent = fetchUrl({
+      url: replaceVastMacros(vastUrl, vastUrlMacroVars),
+      syncInBrowser: true
+    });
     currentVast = createVastWithBuilder(vastRawContent as any);
     vastAndWrappers.push(currentVast);
     if (currentVast.isWrapper()) {
@@ -101,6 +106,7 @@ export function downloadVastAndWrappersAsync(
 ): void {
   const vastAndWrappers: Vasts = actualDownloadedVasts || [];
   let currentVast: VastElement<any>;
+  const vastUrlMacroVars: any = options.vastUrlMacroVars || {};
 
   fetchUrl({
     loadCallback: vastRawContent => {
@@ -122,6 +128,6 @@ export function downloadVastAndWrappersAsync(
       }
     },
     syncInBrowser: true,
-    url: vastUrl
+    url: replaceVastMacros(vastUrl, vastUrlMacroVars)
   });
 }

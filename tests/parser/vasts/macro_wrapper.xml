@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST version="4.0">
+  <Ad>
+    <Wrapper>
+      <AdSystem><![CDATA[test ad system]]></AdSystem>
+      <Impression><![CDATA[impression url macro wrapper]]></Impression>
+      <VASTAdTagURI>
+        <![CDATA[http://vasts/minimal_vast.xml?uri=[PAGEURL]]]>
+      </VASTAdTagURI>
+    </Wrapper>
+  </Ad>
+</VAST>

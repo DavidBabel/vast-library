@@ -19,7 +19,11 @@ describe("VastParser fetch / NODE.js", () => {
       .get("/minimal_wrapper_2.xml")
       .reply(200, getFileContent("minimal_wrapper_2.xml"))
       .get("/minimal_wrapper_3.xml")
-      .reply(200, getFileContent("minimal_wrapper_3.xml"));
+      .reply(200, getFileContent("minimal_wrapper_3.xml"))
+      .get("/macro_wrapper.xml")
+      .reply(200, getFileContent("macro_wrapper.xml"))
+      .get("/minimal_vast.xml?uri=example")
+      .reply(200, getFileContent("minimal_vast.xml"));
   });
   afterAll(() => {
     nock.restore();
@@ -42,5 +46,16 @@ describe("VastParser fetch / NODE.js", () => {
     expect(() => {
       parser.parseSync("http://vasts/minimal_wrapper_1.xml");
     }).toThrow();
+  });
+  test("should parse a vast and it's wrappers with macro replacement", done => {
+      const macroVars = { PAGEURL : 'example' };
+      const parser = new VastParser({vastUrlMacroVars: macroVars});
+      parser.parseAsync("http://vasts/macro_wrapper.xml", p => {
+          expect(p.getContents(["Impression"])).toEqual([
+              "impression url macro wrapper",
+              "impression url vast inline"
+              ]);
+          done();
+      });
   });
 });

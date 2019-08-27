@@ -12,5 +12,7 @@ interface CommonOptions extends ErrorOptions {
 }
 
 interface VastBuilderOptions extends ErrorOptions, CommonOptions {}
-interface VastParserOptions extends ErrorOptions {}
+interface VastParserOptions extends ErrorOptions {
+    vastUrlMacroVars?: any
+}
 interface VastValidatorOptions extends ErrorOptions {}
