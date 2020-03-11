@@ -11,6 +11,13 @@ interface CommonOptions extends ErrorOptions {
   spaces?: number; // TODO replace by indentSpaceNumber
 }
 
+interface Macro {
+  key: string;
+  value: string;
+}
+
 interface VastBuilderOptions extends ErrorOptions, CommonOptions {}
-interface VastParserOptions extends ErrorOptions {}
+interface VastParserOptions extends ErrorOptions {
+  macrosToReplace?: Macro[];
+}
 interface VastValidatorOptions extends ErrorOptions {}
