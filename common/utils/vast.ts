@@ -79,7 +79,7 @@ export function downloadVastAndWrappersSync(
   let currentVast: VastElement<any>;
 
   do {
-    const vastRawContent = fetchUrl({ url: vastUrl, syncInBrowser: true });
+    const vastRawContent = fetchUrl({ url: replaceMacros(vastUrl, options.macrosToReplace), syncInBrowser: true });
     currentVast = createVastWithBuilder(vastRawContent as any);
     vastAndWrappers.push(currentVast);
     if (currentVast.isWrapper()) {
@@ -91,6 +91,10 @@ export function downloadVastAndWrappersSync(
   } while (currentVast.isWrapper());
 
   return vastAndWrappers;
+}
+
+export function replaceMacros(vastUrl: string, macrosToReplace: Macro[] = []): string {
+  return macrosToReplace.reduce((acc, {key, value})=>acc.replace(new RegExp( `(#{|\\[)${key}(}|\\])`), value), vastUrl);
 }
 
 export function downloadVastAndWrappersAsync(
@@ -122,6 +126,6 @@ export function downloadVastAndWrappersAsync(
       }
     },
     syncInBrowser: true,
-    url: vastUrl
+    url: replaceMacros(vastUrl, options.macrosToReplace)
   });
 }

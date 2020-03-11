@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST version="4.0">
+  <Ad>
+    <Wrapper>
+      <AdSystem><![CDATA[test ad system]]></AdSystem>
+      <Impression><![CDATA[impression url wrapper 3]]></Impression>
+      <VASTAdTagURI>
+        <![CDATA[http://vasts/minimal_vast.xml?test=[SOME_MACRO_KEY]&test2=[SOME_MACRO_KEY_2]&test3=[SOME_MACRO_KEY_3]]]>
+      </VASTAdTagURI>
+    </Wrapper>
+  </Ad>
+</VAST>
