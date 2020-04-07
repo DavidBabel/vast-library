@@ -32,7 +32,7 @@ Main features are :
 
 <!-- TODO add links to features -->
 
-- VAST Parser fully yp to date
+- VAST Parser: fully up to date
 - VAST Builder: with an awesome API to create 100% iab valid VAST 2, 3, 4 & 4.1
 - VAST Validation
 
@@ -71,7 +71,7 @@ yarn add vast-library
 
 This library is compatible with both browser and node, so if you want to save some import size, it is split in three parts :
 
-```bash
+```js
 import VastParser from "vast-library/parser";
 import VastValidator from "vast-library/validator";
 import * as VastBuilder from "vast-library/builder";
@@ -81,6 +81,35 @@ import { v2, v3, v4, v4_1 } from "vast-library/builder";
 ```
 
 A good treeshacking will save you some space.
+
+### Parse VAST URL and VAST Content recursively
+
+The vast parser handles parsing your VAST Url and VAST Content recursively.
+
+You can also specify a *custom* list of VAST Url macros to replace, which for every VAST Url found recursively will replace the macros with the given value.
+
+Currently supported Macro types are: `#{MY_MACRO_KEY}` and `[MY_MACRO_KEY]`.
+
+```js
+// optional
+const options = {
+  macrosToReplace: [
+    {key: 'OMIDPARTNER', value: 'toto'},
+    {key: 'APIFRAMEWORKS', value: 'tata'}
+  ]
+};
+
+const vastParser = new VastParser(options);
+
+// [OMIDPARTNER] will be replaced with toto and [APIFRAMEWORKS] will be replaced with tata
+vastParser.parseAsync('http://my.vast.com?omidPartner=[OMIDPARTNER]&apiFrameworks=[APIFRAMEWORKS]', function(p){
+  // the combined parsed contents here
+  console.log(p.getContents());
+});
+
+const p = vastParser.parseSync('http://my.vast.com?omidPartner=[OMIDPARTNER]&apiFrameworks=[APIFRAMEWORKS]');
+console.log(p.getContents());
+```
 
 ### Validate existing VAST
 
