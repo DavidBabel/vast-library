@@ -15,4 +15,8 @@ tslint.json
 try.*
 yarn.lock
 jest-puppeteer.config.js
+# ignore the .ts files
+*.ts
+# include the .d.ts files
+!*.d.ts
 todo*
