@@ -269,9 +269,6 @@ This package does no magic under the hood, the API is very redondant and always 
 ### Full API
 
 Full APIs are availables here :
-
-<<<<<<< HEAD
-
 - [APIv2](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast2_0.md)
 - [APIv3](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast3_0.md)
 - [APIv4](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast4_0.md)
@@ -279,7 +276,6 @@ Full APIs are availables here :
 - [APIv2](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast2.md)
 - [APIv3](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast3.md)
 - [APIv4](https://github.com/DavidBabel/vast-library/blob/master/build/doc/vast4.md)
-  > > > > > > > master
 
 ### Common Node API
 
@@ -309,17 +305,8 @@ VastElement.attachValidTag(content, attributes);
 // addCustomTag
 // attach or add wathever Tag you need, usefull for <Extensions> childs
 // name is the <Tag> you want, cannot be validated
-<<<<<<< HEAD
 const child = VastElement.attachCustomTag(tagName, content, attributes);
 const self = VastElement.addCustomTag(tagName, content, attributes);
-=======
-const child = VastElement.dangerouslyAttachCustomTag(
-  tagName,
-  content,
-  attributes
-);
-const self = VastElement.dangerouslyAddCustomTag(tagName, content, attributes);
->>>>>>> master
 
 // and: can be called on every object to return the parent tag
 const father = VastElement.and();
@@ -424,10 +411,5 @@ MIT. Copyright (c) David Babel.
 Thanks for your gentle contribs :
 
 - [Arild](https://github.com/s1232) ( [#12](https://github.com/DavidBabel/vast-library/pull/12) )
-  <<<<<<< HEAD
 
-# **Donations:**
-
-> > > > > > > master
-
-If you like this package, want it to be maintened and use it to makes millions, you can buy me [a coffee](https://www.paypal.me/devilhunter/2) ☕ or [a beer](https://www.paypal.me/devilhunter/4) 🍺.
+**Donations:** If you like this package, want it to be maintened and use it to makes millions, you can buy me [a coffee](https://www.paypal.me/devilhunter/2) ☕ or [a beer](https://www.paypal.me/devilhunter/4) 🍺.
