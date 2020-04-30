@@ -1,37 +1,79 @@
-interface FetchOptions {
+interface FetchUrlOptions {
   url: string;
-  loadCallback?: (response: string) => void;
-  syncInBrowser?: boolean;
+  loadCallback: (response: string) => void;
+  syncInBrowser: boolean;
+  retries: number;
+}
+
+interface FetchUrlSyncOptions {
+  url: string;
+  retries?: number;
+}
+
+interface FetchUrlAsyncOptions {
+  url: string;
+  onError: (response: string) => void;
+  onSuccess: (response: string) => void;
+  retries?: number;
+}
+
+function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
+  let attempts = 0;
+
+  while (attempts++ < retries) {
+    try {
+      const request = new XMLHttpRequest();
+      request.open("GET", url, false);
+      request.send();
+
+      if (request.status >= 200 && request.status < 400) {
+        return request.responseText;
+      }
+    } catch (e) {}
+  }
+
+  throw new Error(`${url} fetch failed after ${attempts} attempts`);
+}
+
+function fetchUrlAsync({ url, onError, onSuccess, retries = 2 }: FetchUrlAsyncOptions) {
+  if (retries === 0) {
+    onError(`${url} fetch failed after 3 attempts`);
+    return;
+  }
+
+  const request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.onerror = () => {
+    fetchUrlAsync({
+      onError,
+      onSuccess,
+      retries: retries - 1,
+      url
+    });
+  };
+  request.onload = res => {
+    onSuccess((res as any).responseText);
+  };
+  request.send();
 }
 
 export function fetchUrl({
   url,
-  loadCallback = () => { },
+  loadCallback = () => {},
   syncInBrowser = false
-}: FetchOptions) {
+}: FetchUrlOptions) {
   if (!url) {
     throw new Error("'url' is undefined");
   }
-  const fail = () => {
-    throw new Error(`${url} fetch failed`);
-  };
-
-  const fetchReq = new XMLHttpRequest();
   if (syncInBrowser) {
-    fetchReq.open("GET", url, false);
-    fetchReq.send();
-    if (fetchReq.status >= 200 && fetchReq.status < 400) {
-      loadCallback(fetchReq.responseText);
-      return fetchReq.responseText;
-    } else {
-      fail();
-    }
+    return fetchUrlSync({ url });
   } else {
-    fetchReq.open("GET", url, true);
-    fetchReq.onerror = fail;
-    fetchReq.onload = res => {
-      loadCallback((res as any).responseText);
-    };
-    fetchReq.send();
+    fetchUrlAsync({
+      onError: () => {
+        throw new Error(`${url} fetch failed`);
+      },
+      onSuccess: loadCallback,
+      url
+    });
   }
 }
