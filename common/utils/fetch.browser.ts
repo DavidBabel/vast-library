@@ -32,11 +32,11 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
         return request.responseText;
       }
     } catch (e) {
-      if (request && request.status) {
-        errors.push(`REQ #${attempts} status : ${request.status}`);
-      }
-
       errors.push(`REQ #${attempts} message : ${e.message}`);
+    }
+
+    if (request && request.status) {
+      errors.push(`REQ #${attempts} status : ${request.status}`);
     }
   }
 
