@@ -30,8 +30,6 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
 
       if (request.status >= 200 && request.status < 400) {
         return request.responseText;
-      } else {
-        errors.push(`REQ #${attempts} status : ${request.status}`);
       }
     } catch (e) {
       errors.push(`REQ #${attempts} message : ${e.message}`);
