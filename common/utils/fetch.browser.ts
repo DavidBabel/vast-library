@@ -19,20 +19,30 @@ interface FetchUrlAsyncOptions {
 
 function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
   let attempts = 0;
+  const errors = [];
 
   while (attempts++ < retries) {
+    let request;
     try {
-      const request = new XMLHttpRequest();
+      request = new XMLHttpRequest();
       request.open("GET", url, false);
       request.send();
 
       if (request.status >= 200 && request.status < 400) {
         return request.responseText;
+      } else {
+        errors.push(`REQ #${attempts} status : ${request.status}`);
       }
-    } catch (e) {}
+    } catch (e) {
+      errors.push(`REQ #${attempts} message : ${e.message}`);
+    }
+
+    if (request && request.status) {
+      errors.push(`REQ #${attempts} status : ${request.status}`);
+    }
   }
 
-  throw new Error(`${url} fetch failed after ${attempts} attempts`);
+  throw new Error(`${url} fetch failed after ${attempts} attempts. ${errors.join(', ')}`);
 }
 
 function fetchUrlAsync({ url, onError, onSuccess, retries = 2 }: FetchUrlAsyncOptions) {
