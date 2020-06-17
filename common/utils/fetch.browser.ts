@@ -38,6 +38,14 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
     if (request && request.status) {
       errors.push(`REQ #${attempts} status : ${request.status}`);
     }
+
+    if (request && request.name) {
+      errors.push(`REQ #${attempts} name : ${request.name}`);
+    }
+
+    if (request && request.code) {
+      errors.push(`REQ #${attempts} code : ${request.code}`);
+    }
   }
 
   throw new Error(`${url} fetch failed after ${attempts} attempts. ${errors.join(', ')}`);
