@@ -145,4 +145,11 @@ describe("VastParser", () => {
     );
     mock.mockRestore();
   });
+  test("should trim spaces in CDATA fields", () => {
+    parser = new VastParser();
+    parser.addVastWithoutFetching(getFileContent("vast_with_spaces.xml"));
+
+    const clickThrough = parser.getContents(["ClickThrough"]);
+    expect(clickThrough).toEqual(["https://www.ogury.com/"]);
+  });
 });

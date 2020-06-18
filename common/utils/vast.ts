@@ -13,13 +13,11 @@ export function buildVast(current: Element, currentTag: VastElement<any>) {
     ) {
       const currentTmp = current.elements[0];
       const currentText = String(currentTmp.text || currentTmp.cdata);
-      currentTag.content = currentText;
+      currentTag.setContent(currentText);
     } else {
       let currentChild: VastElement<any>;
       for (let i = 0; i < current.elements.length; i++) {
         const currentTmp: Element = current.elements[i];
-        // TODO refacto attachCustomTag from real tag for better integration
-        // and fallback on dangerous
         currentChild = currentTag.attachCustomTag(
           currentTmp.name,
           currentTmp.attributes as any

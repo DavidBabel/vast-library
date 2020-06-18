@@ -59,10 +59,7 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
     this.parent = parent;
     this.name = name;
     if (typeof contentOrAttributes === "string") {
-      if (hasCDATA(contentOrAttributes)) {
-        this.cdataThisOne = true;
-      }
-      this.content = stripCDATA(contentOrAttributes);
+      this.setContent(contentOrAttributes);
       this.attrs = attributesIfContent || {};
     } else {
       this.content = null;
@@ -85,6 +82,15 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
   // * getParent(): Object
   public getParent() {
     return this.and();
+  }
+
+  // > Set content, accept CDATA
+  // * setContent(content: string): void
+  public setContent(content: string): void {
+    if (hasCDATA(content)) {
+      this.cdataThisOne = true;
+    }
+    this.content = stripCDATA(content);
   }
 
   // > Get filtered attributes (only specs valids one will be returned)
