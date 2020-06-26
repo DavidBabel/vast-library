@@ -1,4 +1,3 @@
-import { createVastWithBuilder } from "../../common/utils/vast";
 import VastElement from "../../common/vast-element";
 import VastParser from "../../parser";
 
