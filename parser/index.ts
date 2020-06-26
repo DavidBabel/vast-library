@@ -60,6 +60,10 @@ export default class VastParser {
     return vastElements;
   }
 
+  public getVastsRaw(): string[] {
+    return this.vasts.map((vastElement) => vastElement.getVastRawCode());
+  }
+
   public getCustomVastElements(arrayOfTagNames: string[]): VastElements {
     return this.getVastElements(arrayOfTagNames as PossibleTags[]);
   }

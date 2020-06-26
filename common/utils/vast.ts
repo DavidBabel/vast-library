@@ -49,7 +49,7 @@ export function createVastWithBuilder(
     );
   }
 
-  return createVastFromJson(parsedXml);
+  return createVastFromJson(parsedXml, { vastRawCode });
 }
 
 function createVastFromJson(
