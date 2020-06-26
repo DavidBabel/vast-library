@@ -33,18 +33,18 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
       }
     } catch (e) {
       errors.push(`REQ #${attempts} message : ${e.message}`);
+
+      if (e.name) {
+        errors.push(`REQ #${attempts} name : ${e.name}`);
+      }
+
+      if (e.code) {
+        errors.push(`REQ #${attempts} code : ${e.code}`);
+      }
     }
 
     if (request && request.status) {
       errors.push(`REQ #${attempts} status : ${request.status}`);
-    }
-
-    if (request && request.name) {
-      errors.push(`REQ #${attempts} name : ${request.name}`);
-    }
-
-    if (request && request.code) {
-      errors.push(`REQ #${attempts} code : ${request.code}`);
     }
   }
 
