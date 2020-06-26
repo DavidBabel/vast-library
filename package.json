@@ -1,6 +1,6 @@
 {
   "name": "vast-library",
-  "version": "0.0.0",
+  "version": "4.1.8",
   "description": "An intuitive standard IAB Vast XML generation API. Complient with specifications Vast 2.0 / 3.0 / 4.0 / 4.1",
   "author": "David Babel",
   "thanks": "https://www.paypal.me/devilhunter/4",
