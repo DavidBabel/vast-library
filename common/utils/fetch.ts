@@ -2,12 +2,14 @@ interface FetchOptions {
   url: string;
   loadCallback?: (response: string) => void;
   syncInBrowser?: boolean;
+  userAgent?: string;
 }
 
 export function fetchUrl({
   url,
   loadCallback = () => {},
-  syncInBrowser = false
+  syncInBrowser = false,
+  userAgent,
 }: FetchOptions) {
   if (!url) {
     throw new Error("'url' is undefined");
@@ -17,7 +19,16 @@ export function fetchUrl({
   };
 
   const request = require("request");
-  request(url, (error, response, body) => {
+
+  const options: { headers?: {} } = {};
+
+  if (userAgent) {
+    options.headers = {
+      'User-Agent': userAgent
+    };
+  }
+
+  request(url, options, (error, response, body) => {
     if (error) {
       fail();
     }
