@@ -126,6 +126,7 @@ export function downloadVastAndWrappersAsync(
       }
     },
     syncInBrowser: true,
-    url: replaceMacros(vastUrl, options.macrosToReplace)
+    url: replaceMacros(vastUrl, options.macrosToReplace),
+    userAgent: options.userAgent
   });
 }
