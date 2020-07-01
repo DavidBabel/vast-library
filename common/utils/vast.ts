@@ -49,7 +49,7 @@ export function createVastWithBuilder(
     );
   }
 
-  return createVastFromJson(parsedXml);
+  return createVastFromJson(parsedXml, { vastRawCode });
 }
 
 function createVastFromJson(
@@ -126,6 +126,7 @@ export function downloadVastAndWrappersAsync(
       }
     },
     syncInBrowser: true,
-    url: replaceMacros(vastUrl, options.macrosToReplace)
+    url: replaceMacros(vastUrl, options.macrosToReplace),
+    userAgent: options.userAgent
   });
 }

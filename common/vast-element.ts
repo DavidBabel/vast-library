@@ -351,9 +351,14 @@ export default class VastElement<VastElementParent extends VastElement<any>> {
       logWarn: true,
       spaces: 2,
       throwOnError: false,
+      vastRawCode: options.vastRawCode,
       // validateOnBuild: false,
       ...options
     };
+  }
+
+  public getVastRawCode() {
+    return this.options.vastRawCode;
   }
 
   // undocumented

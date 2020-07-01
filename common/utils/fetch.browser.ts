@@ -3,11 +3,13 @@ interface FetchUrlOptions {
   loadCallback: (response: string) => void;
   syncInBrowser: boolean;
   retries: number;
+  userAgent?: string;
 }
 
 interface FetchUrlSyncOptions {
   url: string;
   retries?: number;
+  userAgent?: string;
 }
 
 interface FetchUrlAsyncOptions {
@@ -15,6 +17,7 @@ interface FetchUrlAsyncOptions {
   onError: (response: string) => void;
   onSuccess: (response: string) => void;
   retries?: number;
+  userAgent?: string;
 }
 
 function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
@@ -51,13 +54,18 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
   throw new Error(`${url} fetch failed after ${attempts} attempts. ${errors.join(', ')}`);
 }
 
-function fetchUrlAsync({ url, onError, onSuccess, retries = 2 }: FetchUrlAsyncOptions) {
+function fetchUrlAsync({ url, onError, onSuccess, retries = 2, userAgent }: FetchUrlAsyncOptions) {
   if (retries === 0) {
     onError(`${url} fetch failed after 3 attempts`);
     return;
   }
 
   const request = new XMLHttpRequest();
+
+  if (userAgent) {
+    request.setRequestHeader('User-Agent', userAgent);
+  }
+
   request.open("GET", url, true);
   request.onerror = () => {
     fetchUrlAsync({

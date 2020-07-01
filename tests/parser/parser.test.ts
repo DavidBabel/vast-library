@@ -1,4 +1,3 @@
-// import { createVastWithBuilder } from "../../common/utils/vast";
 import VastElement from "../../common/vast-element";
 import VastParser from "../../parser";
 
@@ -145,4 +144,8 @@ describe("VastParser", () => {
     );
     mock.mockRestore();
   });
+  test("should get getVastsRaw from VastParser", () => {
+    const vastsRaw = parser.getVastsRaw();
+    expect(vastsRaw).toEqual(getVasts());
+  })
 });
