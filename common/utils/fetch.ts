@@ -14,8 +14,8 @@ export function fetchUrl({
   if (!url) {
     throw new Error("'url' is undefined");
   }
-  const fail = () => {
-    throw new Error(`${url} fetch failed`);
+  const fail = (error, response) => {
+    throw new Error(`${url} fetch failed. ${error.message}. ${(response && response.statusCode)}`);
   };
 
   const request = require("request");
@@ -30,7 +30,7 @@ export function fetchUrl({
 
   request(url, options, (error, response, body) => {
     if (error) {
-      fail();
+      fail(error, response);
     }
     loadCallback(body);
   });
