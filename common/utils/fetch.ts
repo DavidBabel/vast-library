@@ -32,7 +32,7 @@ export function fetchUrl({
   }
 
   request(url, options, (error, response, body) => {
-    if (response.statusCode) {
+    if (response && response.statusCode) {
       error.message = `${error.message ? error.message : ''}, statusCode: ${response.statusCode}`
     }
 
