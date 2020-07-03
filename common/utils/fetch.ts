@@ -31,5 +31,11 @@ export function fetchUrl({
     options.timeout = timeout;
   }
 
-  request(url, options, (error, response, body) => loadCallback(body, error));
+  request(url, options, (error, response, body) => {
+    if (response.statusCode) {
+      error.message = `${error.message ? error.message : ''}, statusCode: ${response.statusCode}`
+    }
+
+    loadCallback(body, error)
+  });
 }
