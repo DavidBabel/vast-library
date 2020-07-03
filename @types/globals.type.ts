@@ -24,5 +24,6 @@ interface VastParserOptions extends ErrorOptions {
   macrosToReplace?: Macro[];
   vastRawCode?: string;
   userAgent?: string;
+  timeout?: number;
 }
 interface VastValidatorOptions extends ErrorOptions {}

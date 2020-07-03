@@ -3,6 +3,7 @@ interface FetchOptions {
   loadCallback?: (response: string) => void;
   syncInBrowser?: boolean;
   userAgent?: string;
+  timeout?: number;
 }
 
 export function fetchUrl({
@@ -10,6 +11,7 @@ export function fetchUrl({
   loadCallback = () => {},
   syncInBrowser = false,
   userAgent,
+  timeout
 }: FetchOptions) {
   if (!url) {
     throw new Error("'url' is undefined");
@@ -20,12 +22,16 @@ export function fetchUrl({
 
   const request = require("request");
 
-  const options: { headers?: {} } = {};
+  const options: { headers?: {}, timeout?: number } = {};
 
   if (userAgent) {
     options.headers = {
       'User-Agent': userAgent
     };
+  }
+
+  if (timeout) {
+    options.timeout = timeout;
   }
 
   request(url, options, (error, response, body) => {
