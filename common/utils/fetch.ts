@@ -32,8 +32,18 @@ export function fetchUrl({
   }
 
   request(url, options, (error, response, body) => {
-    if (error && response && response.statusCode) {
-      error.message = `${error.message ? error.message : ''}, statusCode: ${response.statusCode}, url: ${url}`
+    if (error) {
+      let message = error.message ? error.message : '';
+
+      if (response && response.statusCode) {
+        message += `, statusCode: ${response.statusCode}`;
+      }
+
+      if (url) {
+        message += `, url: ${url}`;
+      }
+
+      error.message = message;
     }
 
     loadCallback(body, error)
