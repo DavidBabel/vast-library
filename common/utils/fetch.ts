@@ -1,6 +1,6 @@
 interface FetchOptions {
   url: string;
-  loadCallback?: (response: string) => void;
+  loadCallback?: (response: string, error?: Error) => void;
   syncInBrowser?: boolean;
   userAgent?: string;
   timeout?: number;
@@ -16,9 +16,6 @@ export function fetchUrl({
   if (!url) {
     throw new Error("'url' is undefined");
   }
-  const fail = (error, response) => {
-    throw new Error(`${url} fetch failed. ${error.message}. ${(response && response.statusCode)}`);
-  };
 
   const request = require("request");
 
@@ -34,10 +31,5 @@ export function fetchUrl({
     options.timeout = timeout;
   }
 
-  request(url, options, (error, response, body) => {
-    if (error) {
-      fail(error, response);
-    }
-    loadCallback(body);
-  });
+  request(url, options, (error, response, body) => loadCallback(body, error));
 }
