@@ -32,8 +32,14 @@ export function fetchUrl({
   }
 
   request(url, options, (error, response, body) => {
-    if (error) {
-      let message = error.message ? error.message : '';
+    let requestError = error;
+
+    if (!error && (response && response.statusCode !== 200)) {
+      requestError = new Error('Status code error');
+    }
+
+    if (requestError) {
+      let message = requestError.message ? requestError.message : '';
 
       if (response && response.statusCode) {
         message += `, statusCode: ${response.statusCode}`;
@@ -43,9 +49,9 @@ export function fetchUrl({
         message += `, url: ${url}`;
       }
 
-      error.message = message;
+      requestError.message = message;
     }
 
-    loadCallback(body, error)
+    loadCallback(body, requestError)
   });
 }
