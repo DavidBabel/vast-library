@@ -27,14 +27,14 @@ export default class VastParser {
     this.vasts.push(createVastWithBuilder(vastXML));
   }
 
-  public parseAsync(vastUrl: string, callback: (self: this) => void) {
+  public parseAsync(vastUrl: string, callback: (self: this, error) => void) {
     this.cleanVasts();
     downloadVastAndWrappersAsync(
       vastUrl,
       this.options,
-      (vasts: VastElements) => {
+      (vasts: VastElements, error) => {
         this.vasts = vasts;
-        callback(this);
+        callback(this, error);
       }
     );
   }

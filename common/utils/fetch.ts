@@ -1,8 +1,9 @@
 interface FetchOptions {
   url: string;
-  loadCallback?: (response: string) => void;
+  loadCallback?: (response: string, error?: Error) => void;
   syncInBrowser?: boolean;
   userAgent?: string;
+  timeout?: number;
 }
 
 export function fetchUrl({
@@ -10,17 +11,15 @@ export function fetchUrl({
   loadCallback = () => {},
   syncInBrowser = false,
   userAgent,
+  timeout
 }: FetchOptions) {
   if (!url) {
     throw new Error("'url' is undefined");
   }
-  const fail = (error, response) => {
-    throw new Error(`${url} fetch failed. ${error.message}. ${(response && response.statusCode)}`);
-  };
 
   const request = require("request");
 
-  const options: { headers?: {} } = {};
+  const options: { headers?: {}, timeout?: number } = {};
 
   if (userAgent) {
     options.headers = {
@@ -28,10 +27,31 @@ export function fetchUrl({
     };
   }
 
+  if (timeout) {
+    options.timeout = timeout;
+  }
+
   request(url, options, (error, response, body) => {
-    if (error) {
-      fail(error, response);
+    let requestError = error;
+
+    if (!error && (response && response.statusCode !== 200)) {
+      requestError = new Error('Status code error');
     }
-    loadCallback(body);
+
+    if (requestError) {
+      let message = requestError.message ? requestError.message : '';
+
+      if (response && response.statusCode) {
+        message += `, statusCode: ${response.statusCode}`;
+      }
+
+      if (url) {
+        message += `, url: ${url}`;
+      }
+
+      requestError.message = message;
+    }
+
+    loadCallback(body, requestError)
   });
 }
