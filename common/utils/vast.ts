@@ -100,14 +100,14 @@ export function replaceMacros(vastUrl: string, macrosToReplace: Macro[] = []): s
 export function downloadVastAndWrappersAsync(
   vastUrl: string,
   options: VastParserOptions,
-  callback: (vasts: Vasts) => void,
+  callback: (vasts: Vasts, error?: Error) => void,
   actualDownloadedVasts?: Vasts
 ): void {
   const vastAndWrappers: Vasts = actualDownloadedVasts || [];
   let currentVast: VastElement<any>;
 
   fetchUrl({
-    loadCallback: vastRawContent => {
+    loadCallback: (vastRawContent, error) => {
       currentVast = createVastWithBuilder(vastRawContent);
       vastAndWrappers.push(currentVast);
       if (currentVast.isWrapper()) {
@@ -122,10 +122,11 @@ export function downloadVastAndWrappersAsync(
           vastAndWrappers
         );
       } else {
-        callback(vastAndWrappers);
+        callback(vastAndWrappers, error);
       }
     },
     syncInBrowser: true,
+    timeout: options.timeout,
     url: replaceMacros(vastUrl, options.macrosToReplace),
     userAgent: options.userAgent
   });
