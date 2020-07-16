@@ -17,41 +17,39 @@ export function fetchUrl({
     throw new Error("'url' is undefined");
   }
 
-  const request = require("request");
+  const axios = require("axios").default;
 
-  const options: { headers?: {}, timeout?: number } = {};
+  const config: { headers?: {}, timeout?: number } = {};
 
   if (userAgent) {
-    options.headers = {
+    config.headers = {
       'User-Agent': userAgent
     };
   }
 
   if (timeout) {
-    options.timeout = timeout;
+    config.timeout = timeout;
   }
 
-  request(url, options, (error, response, body) => {
-    let requestError = error;
+  axios.get(url, config).then((response) => {
+    let error;
 
-    if (!error && (response && response.statusCode !== 200)) {
-      requestError = new Error('Status code error');
+    if (response.status !== 200) {
+      error = new Error(`Status code error, statusCode: ${response.status}, url: ${url}`);
     }
 
-    if (requestError) {
-      let message = requestError.message ? requestError.message : '';
+    return loadCallback(response.data, error);
+  }).catch((error) => {
+    let message = error.message ? error.message : '';
 
-      if (response && response.statusCode) {
-        message += `, statusCode: ${response.statusCode}`;
-      }
-
-      if (url) {
-        message += `, url: ${url}`;
-      }
-
-      requestError.message = message;
+    if (error.response && error.response.status) {
+      message += `, statusCode: ${error.response.status}`;
     }
 
-    loadCallback(body, requestError)
+    message += `, url: ${url}`;
+
+    error.message = message;
+
+    return loadCallback(error.response && error.response.data || '', error);
   });
 }

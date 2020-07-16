@@ -108,6 +108,10 @@ export function downloadVastAndWrappersAsync(
 
   fetchUrl({
     loadCallback: (vastRawContent, error) => {
+      if (error) {
+        return callback(vastAndWrappers, error);
+      }
+
       currentVast = createVastWithBuilder(vastRawContent);
       vastAndWrappers.push(currentVast);
       if (currentVast.isWrapper()) {
