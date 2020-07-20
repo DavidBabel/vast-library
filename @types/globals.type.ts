@@ -23,7 +23,7 @@ interface VastBuilderOptions extends ErrorOptions, CommonOptions {
 interface VastParserOptions extends ErrorOptions {
   macrosToReplace?: Macro[];
   vastRawCode?: string;
-  userAgent?: string;
+  headers?: Record<string, string>;
   timeout?: number;
 }
 interface VastValidatorOptions extends ErrorOptions {}
