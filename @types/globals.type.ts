@@ -25,5 +25,6 @@ interface VastParserOptions extends ErrorOptions {
   vastRawCode?: string;
   headers?: Record<string, string>;
   timeout?: number;
+  urlWrapper?: string;
 }
 interface VastValidatorOptions extends ErrorOptions {}

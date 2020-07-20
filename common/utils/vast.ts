@@ -105,6 +105,11 @@ export function downloadVastAndWrappersAsync(
 ): void {
   const vastAndWrappers: Vasts = actualDownloadedVasts || [];
   let currentVast: VastElement<any>;
+  let url = replaceMacros(vastUrl, options.macrosToReplace);
+
+  if (options.urlWrapper) {
+    url = options.urlWrapper + encodeURIComponent(url);
+  }
 
   fetchUrl({
     headers: options.headers,
@@ -132,6 +137,6 @@ export function downloadVastAndWrappersAsync(
     },
     syncInBrowser: true,
     timeout: options.timeout,
-    url: replaceMacros(vastUrl, options.macrosToReplace),
+    url,
   });
 }
