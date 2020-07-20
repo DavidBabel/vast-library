@@ -3,13 +3,13 @@ interface FetchUrlOptions {
   loadCallback: (response: string) => void;
   syncInBrowser: boolean;
   retries: number;
-  userAgent?: string;
+  headers?: Record<string, string>;
 }
 
 interface FetchUrlSyncOptions {
   url: string;
   retries?: number;
-  userAgent?: string;
+  headers?: Record<string, string>;
 }
 
 interface FetchUrlAsyncOptions {
@@ -17,7 +17,7 @@ interface FetchUrlAsyncOptions {
   onError: (response: string) => void;
   onSuccess: (response: string) => void;
   retries?: number;
-  userAgent?: string;
+  headers?: Record<string, string>;
 }
 
 function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
@@ -54,7 +54,7 @@ function fetchUrlSync({ url, retries = 2 }: FetchUrlSyncOptions) {
   throw new Error(`${url} fetch failed after ${attempts} attempts. ${errors.join(', ')}`);
 }
 
-function fetchUrlAsync({ url, onError, onSuccess, retries = 2, userAgent }: FetchUrlAsyncOptions) {
+function fetchUrlAsync({ url, onError, onSuccess, retries = 2, headers }: FetchUrlAsyncOptions) {
   if (retries === 0) {
     onError(`${url} fetch failed after 3 attempts`);
     return;
@@ -62,8 +62,8 @@ function fetchUrlAsync({ url, onError, onSuccess, retries = 2, userAgent }: Fetc
 
   const request = new XMLHttpRequest();
 
-  if (userAgent) {
-    request.setRequestHeader('User-Agent', userAgent);
+  for (const [key, value] of Object.entries(headers || {})) {
+    request.setRequestHeader(key, value);
   }
 
   request.open("GET", url, true);

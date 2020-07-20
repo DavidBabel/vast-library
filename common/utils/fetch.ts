@@ -2,7 +2,7 @@ interface FetchOptions {
   url: string;
   loadCallback?: (response: string, error?: Error) => void;
   syncInBrowser?: boolean;
-  userAgent?: string;
+  headers?: Record<string, string>;
   timeout?: number;
 }
 
@@ -10,7 +10,7 @@ export function fetchUrl({
   url,
   loadCallback = () => {},
   syncInBrowser = false,
-  userAgent,
+  headers = {},
   timeout
 }: FetchOptions) {
   if (!url) {
@@ -21,10 +21,8 @@ export function fetchUrl({
 
   const config: { headers?: {}, timeout?: number } = {};
 
-  if (userAgent) {
-    config.headers = {
-      'User-Agent': userAgent
-    };
+  if (headers) {
+    config.headers = headers;
   }
 
   if (timeout) {

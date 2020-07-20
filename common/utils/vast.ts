@@ -107,6 +107,7 @@ export function downloadVastAndWrappersAsync(
   let currentVast: VastElement<any>;
 
   fetchUrl({
+    headers: options.headers,
     loadCallback: (vastRawContent, error) => {
       if (error) {
         return callback(vastAndWrappers, error);
@@ -132,6 +133,5 @@ export function downloadVastAndWrappersAsync(
     syncInBrowser: true,
     timeout: options.timeout,
     url: replaceMacros(vastUrl, options.macrosToReplace),
-    userAgent: options.userAgent
   });
 }
